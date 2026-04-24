@@ -23,6 +23,7 @@ class BaseLensConfig(TDCosmography, ImageModelPosterior, KinScalingConfig):
         kwargs_seeing,
         anisotropy_model,
         kwargs_numerics_galkin=None,
+        kwargs_numerics_jampy=None,
         axial_symmetry="spherical",
         kinematics_backend="jampy",
         lens_model_list=None,
@@ -61,6 +62,7 @@ class BaseLensConfig(TDCosmography, ImageModelPosterior, KinScalingConfig):
             MamonLokasAnisotropy() class of lenstronomy.GalKin.anisotropy
         :param kwargs_numerics_galkin: numerical settings for the integrated
             line-of-sight velocity dispersion
+        :param kwargs_numerics_jampy: additional kwargs for the jampy call
         :param axial_symmetry: axial symmetry assumption for JAM modeling, either 'spherical', 'axi_sph' or 'axi_cyl'.
         :param multi_observations: bool, if True, interprets kwargs_aperture and
             kwargs_seeing as lists of multiple observations
@@ -112,6 +114,7 @@ class BaseLensConfig(TDCosmography, ImageModelPosterior, KinScalingConfig):
             multi_light_profile=multi_light_profile,
             anisotropy_model=anisotropy_model,
             kwargs_numerics_galkin=kwargs_numerics_galkin,
+            kwargs_numerics_jampy=kwargs_numerics_jampy,
             analytic_kinematics=False,
             Hernquist_approx=False,
             MGE_light=MGE_light,

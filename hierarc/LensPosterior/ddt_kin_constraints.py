@@ -22,6 +22,7 @@ class DdtKinConstraints(KinConstraints):
         kwargs_seeing,
         anisotropy_model,
         kwargs_numerics_galkin=None,
+        kwargs_numerics_jampy=None,
         axial_symmetry="spherical",
         kinematics_backend="jampy",
         q_total_mass=None,
@@ -66,6 +67,7 @@ class DdtKinConstraints(KinConstraints):
         :param r_eff: half-light radius of the deflector (arc seconds)
         :param r_eff_error: uncertainty on half-light radius
         :param kwargs_numerics_galkin: numerical settings for the integrated line-of-sight velocity dispersion
+        :param kwargs_numerics_jampy: additional kwargs for the jampy call
         :param anisotropy_model: type of stellar anisotropy model. See details in MamonLokasAnisotropy() class of lenstronomy.GalKin.anisotropy
         :param axial_symmetry: axial symmetry assumption for JAM modeling, either 'spherical', 'axi_sph' or 'axi_cyl'.
         :param kinematics_backend: backend to compute the JAM kinematics, either 'jampy' or 'galkin'
@@ -101,6 +103,7 @@ class DdtKinConstraints(KinConstraints):
             kwargs_aperture=kwargs_aperture,
             kwargs_seeing=kwargs_seeing,
             kwargs_numerics_galkin=kwargs_numerics_galkin,
+            kwargs_numerics_jampy=kwargs_numerics_jampy,
             axial_symmetry=axial_symmetry,
             kinematics_backend=kinematics_backend,
             q_total_mass=q_total_mass,
