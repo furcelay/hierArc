@@ -46,6 +46,7 @@ class KinConstraints(BaseLensConfig):
         sampling_number=1000,
         num_psf_sampling=100,
         num_kin_sampling=1000,
+        supersampling_factor=None,
         multi_observations=False,
         multi_light_profile=False,
         cosmo_fiducial=None,
@@ -114,6 +115,7 @@ class KinConstraints(BaseLensConfig):
         self._sigma_v_error_covariant = sigma_v_error_covariant
         self._sigma_v_error_cov_matrix = sigma_v_error_cov_matrix
         self._anisotropy_model = anisotropy_model
+        self._supersampling_factor = supersampling_factor
 
         BaseLensConfig.__init__(
             self,
@@ -245,6 +247,7 @@ class KinConstraints(BaseLensConfig):
             r_eff=r_eff_draw,
             theta_E=theta_E_draw,
             gamma=gamma_draw,
+            supersampling_factor=self._supersampling_factor,
         )
         return j_kin
 
