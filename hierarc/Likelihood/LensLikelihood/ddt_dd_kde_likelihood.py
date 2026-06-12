@@ -47,7 +47,7 @@ class DdtDdKDELikelihood(object):
             z = np.zeros((num_interp_grid, num_interp_grid))
             for i, dd in enumerate(dd_grid):
                 for j, ddt in enumerate(ddt_grid):
-                    z[j, i] = self._kde_likelihood.logLikelihood(dd, ddt)[0]
+                    z[j, i] = self._kde_likelihood.log_likelihood(dd, ddt)[0]
             self._interp_log_likelihood = RectBivariateSpline(dd_grid, ddt_grid, z.T)
         self._interpol = interpol
         self.num_data = 2
@@ -68,4 +68,4 @@ class DdtDdKDELikelihood(object):
             dd_ = dd
         if self._interpol is True:
             return self._interp_log_likelihood(dd_, ddt).T[0]
-        return self._kde_likelihood.logLikelihood(dd_, ddt)[0]
+        return self._kde_likelihood.log_likelihood(dd_, ddt)[0]
