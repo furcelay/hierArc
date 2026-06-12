@@ -343,7 +343,7 @@ class LensLikelihood(TransformedCosmography, LensLikelihoodBase, KinScaling):
                 sigma_v_sys_error=sigma_v_sys_error,
             )
         else:
-            likelihood = 0
+            likelihood_sum = -np.inf
             for i in range(self._num_distribution_draws):
                 logl = self.log_likelihood_single(
                     ddt,
@@ -356,12 +356,11 @@ class LensLikelihood(TransformedCosmography, LensLikelihoodBase, KinScaling):
                     kwargs_los=kwargs_los,
                     sigma_v_sys_error=sigma_v_sys_error,
                 )
-                exp_logl = np.exp(logl)
-                if np.isfinite(exp_logl) and exp_logl > 0:
-                    likelihood += exp_logl
-            if likelihood <= 0:
+                if np.isfinite(logl):
+                    likelihood_sum = np.logaddexp(likelihood_sum, logl)
+            if not np.isfinite(likelihood_sum):
                 return -np.inf
-            return np.log(likelihood / self._num_distribution_draws)
+            return likelihood_sum - np.log(self._num_distribution_draws)
 
     def log_likelihood_single(
         self,
