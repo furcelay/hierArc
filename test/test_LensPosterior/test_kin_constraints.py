@@ -437,7 +437,7 @@ class TestKinConstraints(object):
             kwargs_lens_light=kwargs_lens_light,
         )
         j_kin = kin_constraints_sph_mass.j_kin_draw(
-            kwargs_anisotropy, gamma_pl=gamma, no_error=True
+            kwargs_anisotropy, gamma_pl=gamma, q_intrinsic=q_intrinsic, no_error=True
         )
         npt.assert_allclose(j_kin, j_sph_mass, rtol=1e-3)
 
@@ -509,7 +509,7 @@ class TestKinConstraints(object):
             kwargs_lens_light=kwargs_lens_light,
         )
         j_kin = kin_constraints_ell_mass.j_kin_draw(
-            kwargs_anisotropy, gamma_pl=gamma, no_error=True
+            kwargs_anisotropy, gamma_pl=gamma, q_intrinsic=q_intrinsic, no_error=True
         )
         npt.assert_allclose(j_kin, j_ell_mass, rtol=1e-3)
 

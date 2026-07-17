@@ -343,7 +343,7 @@ class LensLikelihood(TransformedCosmography, LensLikelihoodBase, KinScaling):
                 sigma_v_sys_error=sigma_v_sys_error,
             )
         else:
-            likelihood = 0
+            likelihood_sum = -np.inf
             for i in range(self._num_distribution_draws):
                 logl = self.log_likelihood_single(
                     ddt,
@@ -356,12 +356,11 @@ class LensLikelihood(TransformedCosmography, LensLikelihoodBase, KinScaling):
                     kwargs_los=kwargs_los,
                     sigma_v_sys_error=sigma_v_sys_error,
                 )
-                exp_logl = np.exp(logl)
-                if np.isfinite(exp_logl) and exp_logl > 0:
-                    likelihood += exp_logl
-            if likelihood <= 0:
+                if np.isfinite(logl):
+                    likelihood_sum = np.logaddexp(likelihood_sum, logl)
+            if not np.isfinite(likelihood_sum):
                 return -np.inf
-            return np.log(likelihood / self._num_distribution_draws)
+            return likelihood_sum - np.log(self._num_distribution_draws)
 
     def log_likelihood_single(
         self,
@@ -457,9 +456,7 @@ class LensLikelihood(TransformedCosmography, LensLikelihoodBase, KinScaling):
             return 0, 0  # just returns some random numbers as not being used
         dd = cosmo.angular_diameter_distance(self.z_lens).value
         ds = cosmo.angular_diameter_distance(self.z_source).value
-        dds = cosmo.angular_diameter_distance_z1z2(
-            z1=self.z_lens, z2=self.z_source
-        ).value
+        dds = cosmo.angular_diameter_distance(self.z_lens, self.z_source).value
         ddt = (1.0 + self.z_lens) * dd * ds / dds
         return np.maximum(np.nan_to_num(ddt), 0.00001), np.maximum(
             np.nan_to_num(dd), 0.00001
@@ -588,10 +585,27 @@ class LensLikelihood(TransformedCosmography, LensLikelihoodBase, KinScaling):
                 kappa_ext=kappa_ext,
                 gamma_pl=gamma_pl,
             )
-            kwargs_kin_draw = self._aniso_distribution.draw_anisotropy(
-                **kwargs_kin_copy
+            kwargs_anisotropy = self._aniso_distribution.get_ani_sampling_params(
+                kwargs_kin
             )
-            kwargs_param = {**kwargs_lens_draw, **kwargs_kin_draw}
+            kwargs_anisotropy_draw = self._aniso_distribution.draw_anisotropy(
+                **kwargs_anisotropy
+            )
+
+            kwargs_deprojection = (
+                self._deprojection_distribution.get_deprojection_sampling_params(
+                    kwargs_kin
+                )
+            )
+            kwargs_deprojection_draw = (
+                self._deprojection_distribution.draw_deprojection(**kwargs_deprojection)
+            )
+
+            kwargs_param = {
+                **kwargs_lens_draw,
+                **kwargs_anisotropy_draw,
+                **kwargs_deprojection_draw,
+            }
             kin_scaling = self.kin_scaling(kwargs_param)
             if self._axisymmetric_correction_sampling is True:
                 inclination_scaling = (

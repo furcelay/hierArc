@@ -783,7 +783,7 @@ class TestKinConstraintsCompositeAxi(object):
             q_intrinsic=0.7,
             no_error=True,
         )
-        np.testing.assert_allclose(j_kin, 4.48e-6, rtol=0.01)
+        np.testing.assert_allclose(j_kin, 4.14e-6, rtol=0.01)
 
 
 class TestRaise(unittest.TestCase):

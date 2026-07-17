@@ -30,6 +30,7 @@ class KinConstraintsComposite(KinConstraints):
         kwargs_seeing,
         anisotropy_model,
         kwargs_numerics_galkin=None,
+        kwargs_numerics_jampy=None,
         axial_symmetry="spherical",
         kinematics_backend="jampy",
         q_total_mass=None,
@@ -47,6 +48,7 @@ class KinConstraintsComposite(KinConstraints):
         sampling_number=1000,
         num_psf_sampling=100,
         num_kin_sampling=1000,
+        supersampling_factor=None,
         multi_observations=False,
         rho0_array=None,
         kappa_s_array=None,
@@ -88,6 +90,7 @@ class KinConstraintsComposite(KinConstraints):
             MamonLokasAnisotropy() class of lenstronomy.GalKin.anisotropy
         :param kwargs_numerics_galkin: numerical settings for the integrated
             line-of-sight velocity dispersion
+        :param kwargs_numerics_jampy: additional kwargs for the jampy call
         :param axial_symmetry: axial symmetry assumption for JAM modeling, either 'spherical', 'axi_sph' or 'axi_cyl'.
         :param kinematics_backend: backend to compute the JAM kinematics, either 'jampy' or 'galkin'
         :param q_total_mass: float between 0 and 1, axial ratio for the total mass (stars + dark matter).
@@ -168,6 +171,7 @@ class KinConstraintsComposite(KinConstraints):
             sampling_number=sampling_number,
             num_psf_sampling=num_psf_sampling,
             num_kin_sampling=num_kin_sampling,
+            supersampling_factor=supersampling_factor,
             multi_observations=multi_observations,
             gamma_in_scaling=gamma_in_array,
             log_m2l_scaling=log_m2l_scaling,

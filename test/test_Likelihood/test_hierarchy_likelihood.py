@@ -14,7 +14,7 @@ class TestLensLikelihood(object):
         self.cosmo = FlatLambdaCDM(H0=70, Om0=0.3, Ob0=0.05)
         dd = self.cosmo.angular_diameter_distance(z_lens).value
         ds = self.cosmo.angular_diameter_distance(z_source).value
-        dds = self.cosmo.angular_diameter_distance_z1z2(z1=z_lens, z2=z_source).value
+        dds = self.cosmo.angular_diameter_distance(z_lens, z_source).value
         ddt = (1.0 + z_lens) * dd * ds / dds
         self.dd, self.ddt = dd, ddt
         v2_to_j = dds / ds / const.c**2 * 1e6
@@ -414,7 +414,7 @@ class TestLensLikelihood(object):
 
         dd = self.cosmo.angular_diameter_distance(z_lens).value
         ds = self.cosmo.angular_diameter_distance(z_source).value
-        dds = self.cosmo.angular_diameter_distance_z1z2(z1=z_lens, z2=z_source).value
+        dds = self.cosmo.angular_diameter_distance(z_lens, z_source).value
         ddt = (1.0 + z_lens) * dd * ds / dds
 
         # ln_likelihood = self.likelihood_gamma_in_fail_case.log_likelihood_single(

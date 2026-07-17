@@ -22,6 +22,7 @@ class DdtGaussKinConstraints(KinConstraints):
         kwargs_seeing,
         anisotropy_model,
         kwargs_numerics_galkin=None,
+        kwargs_numerics_jampy=None,
         axial_symmetry="spherical",
         kinematics_backend="jampy",
         q_total_mass=None,
@@ -39,6 +40,7 @@ class DdtGaussKinConstraints(KinConstraints):
         sampling_number=1000,
         num_psf_sampling=100,
         num_kin_sampling=1000,
+        supersampling_factor=None,
         multi_observations=False,
         gamma_pl_scaling=None,
         q_intrinsic_scaling=None,
@@ -66,6 +68,7 @@ class DdtGaussKinConstraints(KinConstraints):
         :param anisotropy_model: type of stellar anisotropy model. See details in MamonLokasAnisotropy() class of lenstronomy.GalKin.anisotropy
         :param kwargs_numerics_galkin: numerical settings for the integrated
             line-of-sight velocity dispersion
+        :param kwargs_numerics_jampy: additional kwargs for the jampy call
         :param axial_symmetry: axial symmetry assumption for JAM modeling, either 'spherical', 'axi_sph' or 'axi_cyl'.
         :param kinematics_backend: backend to compute the JAM kinematics, either 'jampy' or 'galkin'
         :param kwargs_lens_light: keyword argument list of lens light model (optional)
@@ -94,6 +97,7 @@ class DdtGaussKinConstraints(KinConstraints):
             kwargs_seeing=kwargs_seeing,
             anisotropy_model=anisotropy_model,
             kwargs_numerics_galkin=kwargs_numerics_galkin,
+            kwargs_numerics_jampy=kwargs_numerics_jampy,
             axial_symmetry=axial_symmetry,
             kinematics_backend=kinematics_backend,
             q_total_mass=q_total_mass,
@@ -109,6 +113,7 @@ class DdtGaussKinConstraints(KinConstraints):
             sampling_number=sampling_number,
             num_psf_sampling=num_psf_sampling,
             num_kin_sampling=num_kin_sampling,
+            supersampling_factor=supersampling_factor,
             multi_observations=multi_observations,
             gamma_pl_scaling=gamma_pl_scaling,
             q_intrinsic_scaling=q_intrinsic_scaling,

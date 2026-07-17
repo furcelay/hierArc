@@ -29,6 +29,7 @@ class KinConstraints(BaseLensConfig):
         kwargs_seeing,
         anisotropy_model,
         kwargs_numerics_galkin=None,
+        kwargs_numerics_jampy=None,
         axial_symmetry="spherical",
         kinematics_backend="jampy",
         q_total_mass=None,
@@ -45,6 +46,7 @@ class KinConstraints(BaseLensConfig):
         sampling_number=1000,
         num_psf_sampling=100,
         num_kin_sampling=1000,
+        supersampling_factor=None,
         multi_observations=False,
         multi_light_profile=False,
         cosmo_fiducial=None,
@@ -83,6 +85,7 @@ class KinConstraints(BaseLensConfig):
             MamonLokasAnisotropy() class of lenstronomy.GalKin.anisotropy
         :param kwargs_numerics_galkin: numerical settings for the integrated
             line-of-sight velocity dispersion
+        :param kwargs_numerics_jampy: additional kwargs for the jampy call
         :param axial_symmetry: axial symmetry assumption for JAM modeling, either 'spherical', 'axi_sph' or 'axi_cyl'.
         :param kinematics_backend: backend to compute the JAM kinematics, either 'jampy' or 'galkin'
         :param q_total_mass: float between 0 and 1, axial ratio for the total mass (stars + dark matter).
@@ -112,6 +115,7 @@ class KinConstraints(BaseLensConfig):
         self._sigma_v_error_covariant = sigma_v_error_covariant
         self._sigma_v_error_cov_matrix = sigma_v_error_cov_matrix
         self._anisotropy_model = anisotropy_model
+        self._supersampling_factor = supersampling_factor
 
         BaseLensConfig.__init__(
             self,
@@ -127,6 +131,7 @@ class KinConstraints(BaseLensConfig):
             kwargs_seeing=kwargs_seeing,
             anisotropy_model=anisotropy_model,
             kwargs_numerics_galkin=kwargs_numerics_galkin,
+            kwargs_numerics_jampy=kwargs_numerics_jampy,
             axial_symmetry=axial_symmetry,
             kinematics_backend=kinematics_backend,
             lens_model_list=lens_model_list,
@@ -242,6 +247,7 @@ class KinConstraints(BaseLensConfig):
             r_eff=r_eff_draw,
             theta_E=theta_E_draw,
             gamma=gamma_draw,
+            supersampling_factor=self._supersampling_factor,
         )
         return j_kin
 
