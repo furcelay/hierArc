@@ -1,6 +1,7 @@
 import numpy as np
 from astropy.cosmology import FLRW, FlatFLRWMixin
 from scipy.special import exp1
+
 # AstroPy 8
 from astropy.cosmology._src.core import dataclass_decorator
 from astropy.cosmology._src.utils import aszarr
