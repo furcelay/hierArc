@@ -1,5 +1,5 @@
 numpy
-astropy
+astropy>=8.0.0
 scipy<1.14
 emcee
 mpmath
