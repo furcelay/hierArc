@@ -1,6 +1,7 @@
 __author__ = "sibirrer"
 
 from lenstronomy.Util import constants as const
+from scipy.linalg import solve_triangular
 import numpy as np
 
 
@@ -73,10 +74,14 @@ class KinLikelihood(object):
             sigma_v_sys_error
         ) + self.cov_error_model(ds_dds, scaling_ifu)
         try:
-            cov_error_inv = np.linalg.inv(cov_error)
-        except:
+            # this is faster and more stable than the matrix inversion
+            cov_scale = np.linalg.cholesky(cov_error)
+            y = solve_triangular(cov_scale, delta, lower=True)
+            lnlikelihood = -np.dot(y, y) / 2.0
+        except np.linalg.LinAlgError:
+            # cov_error is not positive definite
             return -np.inf
-        lnlikelihood = -delta.dot(cov_error_inv.dot(delta)) / 2.0
+        # lnlikelihood = -delta.dot(cov_error_inv.dot(delta)) / 2.0
         if self._normalized is True:
             sign_det, lndet = np.linalg.slogdet(cov_error)
             if sign_det < 0:
