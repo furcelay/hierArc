@@ -1,8 +1,8 @@
 import numpy as np
 from astropy.cosmology import FLRW, FlatFLRWMixin
 from scipy.special import exp1
-from astropy.cosmology.core import dataclass_decorator
-from astropy.cosmology.parameter import Parameter
+from astropy.cosmology._src.core import dataclass_decorator
+from astropy.cosmology import Parameter
 
 try:
     # AstroPy 7

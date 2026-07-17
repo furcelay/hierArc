@@ -456,9 +456,7 @@ class LensLikelihood(TransformedCosmography, LensLikelihoodBase, KinScaling):
             return 0, 0  # just returns some random numbers as not being used
         dd = cosmo.angular_diameter_distance(self.z_lens).value
         ds = cosmo.angular_diameter_distance(self.z_source).value
-        dds = cosmo.angular_diameter_distance_z1z2(
-            z1=self.z_lens, z2=self.z_source
-        ).value
+        dds = cosmo.angular_diameter_distance(self.z_lens, self.z_source).value
         ddt = (1.0 + self.z_lens) * dd * ds / dds
         return np.maximum(np.nan_to_num(ddt), 0.00001), np.maximum(
             np.nan_to_num(dd), 0.00001
